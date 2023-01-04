@@ -1,0 +1,32 @@
+logging:
+  level:
+    root: INFO
+    transportation: DEBUG
+
+server:
+  port: 8082
+
+services:
+#  if need to go to another services
+
+spring:
+  datasource:
+    password: 123
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=user_service
+    user: postgres
+    password: 123
+    liquibase-schema: user_service
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL81Dialect
+        show_sql: false
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
