@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("v1/")
+@RequestMapping("v1/users")
 public class UserController {
 
 }
