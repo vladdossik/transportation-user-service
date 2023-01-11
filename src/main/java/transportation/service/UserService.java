@@ -2,6 +2,11 @@ package transportation.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import transportation.dto.UserPostDto;
+import transportation.dto.UserPutDto;
+import transportation.dto.UserResponseDto;
+import transportation.mapper.UserMapper;
+import transportation.model.User;
 import transportation.repository.UserRepository;
 import users.UserPostRequest;
 
@@ -15,16 +20,26 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserPostRequest saveUser(UserPostRequest userPostRequest) {
-        UserPostRequest user = new UserPostRequest();
-        //не получается загрузить сеттеры
-        return userRepository.save(user);
+    private final UserMapper userMapper;
+
+    public UserResponseDto saveUser(UserPostDto userPostDto) {
+        User user = new User();
+        user.setFirstName(userPostDto.getFirstName());
+        user.setLastName(userPostDto.getLastName());
+        user.setPatronymic(userPostDto.getPatronymic());
+        user.setPassport(userPostDto.getPassport());
+        user.setIssueDate(userPostDto.getIssueDate());
+        user.setIssuePlace(userPostDto.getIssuePlace());
+        return userMapper.toResponseDto(userRepository.save(user));
     }
-    public List<UserPostRequest> getAllUsers() {
-        return userRepository.findAll();
+
+    public List<UserResponseDto> getAllUsers() {
+        List<User> list = userRepository.findAll();
+        return list.stream().map(userMapper::toResponseDto).collect(Collectors.toList());
     }
-    public UserPostRequest getById(Long id) {
-        return userRepository.getById(id);
+
+    public UserResponseDto getById(Long id) {
+        return userMapper.toResponseDto(userRepository.getById(id));
     }
     public String deleteAll() {
         userRepository.deleteAll();
@@ -35,9 +50,10 @@ public class UserService {
         return "Пользователь удален";
     }
     @Transactional
-    public UserPostRequest updateUser(Long id, UserPostRequest user) {
-        userRepository.updateUser(id, user.getFirstName());
+    public UserPutDto updateUser(Long id, UserPutDto userPutDto) {
+        userRepository.updateUser(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
+                userPutDto.getPassport(), userPutDto.getIssueDate(), userPutDto.getIssuePlace(), userPutDto.getAmountOfOrders());
         userRepository.findById(id).get();
-        return user;
+        return userPutDto;
     }
 }

@@ -3,6 +3,9 @@ package transportation.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import transportation.dto.UserPostDto;
+import transportation.dto.UserPutDto;
+import transportation.dto.UserResponseDto;
 import transportation.service.UserService;
 import users.UserPostRequest;
 
@@ -16,19 +19,19 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("add")
+    public UserResponseDto addUser(@RequestBody UserPostDto userPostDto) {
+        return userService.saveUser(userPostDto);
+    }
+
     @GetMapping("all")
-    public List <UserPostRequest> getAllUsers() {
+    public List <UserResponseDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("{id}")
-    public UserPostRequest getById(@PathVariable Long id) {
+    public UserResponseDto getById(@PathVariable Long id) {
         return userService.getById(id);
-    }
-
-    @PostMapping("add")
-    public UserPostRequest addUser(@RequestBody UserPostRequest user) {
-        return userService.saveUser(user);
     }
 
     @DeleteMapping("{id}/delete")
@@ -37,5 +40,12 @@ public class UserController {
     }
 
     @DeleteMapping("delete")
-    public void
+    public String deleteUserAll() {
+        return userService.deleteAll();
+    }
+
+    @PutMapping("{id}")
+    public UserPutDto updateUser(@PathVariable Long id, @RequestBody UserPutDto userDto) {
+        return userService.updateUser(id, userDto);
+    }
 }
