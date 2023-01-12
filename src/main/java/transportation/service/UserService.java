@@ -23,14 +23,13 @@ public class UserService {
     private final UserMapper userMapper;
 
     public UserResponseDto saveUser(UserPostDto userPostDto) {
-        User user = new User();
-        User.builder()
+        User user = User.builder()
                 .firstName(userPostDto.getFirstName())
                 .lastName(userPostDto.getLastName())
                 .patronymic(userPostDto.getPatronymic())
                 .passport(userPostDto.getPassport())
                 .issueDate(userPostDto.getIssueDate())
-                .issuePlace(userPostDto.getIssuePlace());
+               .issuePlace(userPostDto.getIssuePlace()).build();
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
@@ -42,14 +41,18 @@ public class UserService {
     public UserResponseDto getById(Long id) {
         return userMapper.toResponseDto(userRepository.getById(id));
     }
+
     public String deleteAll() {
-        userRepository.deleteAll();
+        List<User> list = userRepository.findAll();
+        userRepository.deleteAll(list);
         return "Пользователи удалены";
     }
+
     public String deleteById(Long id) {
         userRepository.deleteById(id);
         return "Пользователь удален";
     }
+
     @Transactional
     public UserPutDto updateUser(Long id, UserPutDto userPutDto) {
         userRepository.updateUser(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),

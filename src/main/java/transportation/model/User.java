@@ -22,8 +22,8 @@ public class User {
     private ZonedDateTime creationDate;
     private ZonedDateTime lastUpdateDate;
     private String passport;
-    private LocalDate issueDate; // дата выдачи паспорта
-    private String issuePlace; // где выдан
+    private LocalDate issueDate;
+    private String issuePlace;
     private Long amountOfOrders;
-    private Boolean isDeleter;
+    private Boolean isDeleted;
 }
