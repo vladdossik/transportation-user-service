@@ -1,9 +1,9 @@
 spring:
   application:
     name: transportation-user-service
-    liquibase:
-      changeLog:
-      enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 springdoc:
   swagger-ui:
