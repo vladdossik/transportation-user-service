@@ -1,9 +1,6 @@
 spring:
   application:
     name: transportation-user-service
-    liquibase:
-      changeLog:
-      enabled: true
 
 springdoc:
   swagger-ui:

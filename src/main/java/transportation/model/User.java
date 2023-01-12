@@ -1,5 +1,6 @@
 package transportation.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +11,7 @@ import java.time.ZonedDateTime;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
-
+@AllArgsConstructor
 @Entity
 @Table (name = "Users")
 public class User {

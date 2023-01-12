@@ -8,7 +8,6 @@ import transportation.dto.UserResponseDto;
 import transportation.mapper.UserMapper;
 import transportation.model.User;
 import transportation.repository.UserRepository;
-import users.UserPostRequest;
 
 import javax.transaction.Transactional;
 import java.util.List;

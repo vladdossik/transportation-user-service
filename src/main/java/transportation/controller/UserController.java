@@ -7,7 +7,6 @@ import transportation.dto.UserPostDto;
 import transportation.dto.UserPutDto;
 import transportation.dto.UserResponseDto;
 import transportation.service.UserService;
-import users.UserPostRequest;
 
 import java.util.List;
 
