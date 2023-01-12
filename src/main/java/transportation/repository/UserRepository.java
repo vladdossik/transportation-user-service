@@ -16,13 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Transactional
     @Query("update User u set u.firstName = :firstname, u.lastName = :lastname, u.patronymic = :patronymic," +
-            "u.passport = :passport, u.issueDate = :issueDate, u.issuePlace = :issuePlace," +
-            "u.amountOfOrders = :amountOfOrders where u.id = :id")
+            "u.passport = :passport, u.issueDate = :issueDate, u.issuePlace = :issuePlace" +
+            " where u.id = :id")
     public void updateUser(@Param("id") Long id, @Param("firstname") String firstname, @Param("lastname") String lastname,
                            @Param("patronymic") String patronymic, @Param("passport") String passport,
-                           @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace,
-                           @Param("amountOfOrders") Long amountOfOrders);
-
-    // @Query предназначен для определения пользовательского запроса
-    // @Modifying для сообщения spring-data-jpa о том, что этот запрос является операцией обновления
+                           @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace);
 }

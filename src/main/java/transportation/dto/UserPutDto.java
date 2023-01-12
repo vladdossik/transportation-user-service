@@ -13,5 +13,5 @@ public class UserPutDto {
     private String passport;
     private LocalDate issueDate; // дата выдачи паспорта
     private String issuePlace; // где выдан
-    private Long amountOfOrders; //количество заказов
+
 }

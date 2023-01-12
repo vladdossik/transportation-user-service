@@ -1,5 +1,6 @@
 package transportation.service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import transportation.dto.UserPostDto;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
@@ -23,12 +24,13 @@ public class UserService {
 
     public UserResponseDto saveUser(UserPostDto userPostDto) {
         User user = new User();
-        user.setFirstName(userPostDto.getFirstName());
-        user.setLastName(userPostDto.getLastName());
-        user.setPatronymic(userPostDto.getPatronymic());
-        user.setPassport(userPostDto.getPassport());
-        user.setIssueDate(userPostDto.getIssueDate());
-        user.setIssuePlace(userPostDto.getIssuePlace());
+        User.builder()
+                .firstName(userPostDto.getFirstName())
+                .lastName(userPostDto.getLastName())
+                .patronymic(userPostDto.getPatronymic())
+                .passport(userPostDto.getPassport())
+                .issueDate(userPostDto.getIssueDate())
+                .issuePlace(userPostDto.getIssuePlace());
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
@@ -51,7 +53,7 @@ public class UserService {
     @Transactional
     public UserPutDto updateUser(Long id, UserPutDto userPutDto) {
         userRepository.updateUser(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
-                userPutDto.getPassport(), userPutDto.getIssueDate(), userPutDto.getIssuePlace(), userPutDto.getAmountOfOrders());
+                userPutDto.getPassport(), userPutDto.getIssueDate(), userPutDto.getIssuePlace());
         userRepository.findById(id).get();
         return userPutDto;
     }

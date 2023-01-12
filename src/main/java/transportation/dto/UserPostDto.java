@@ -11,7 +11,6 @@ public class UserPostDto {
     private String lastName;
     private String patronymic;
     private String passport;
-    private LocalDate issueDate; // дата выдачи паспорта
-    private String issuePlace; // где выдан
-    private Long amountOfOrders; //количество заказов
+    private LocalDate issueDate;
+    private String issuePlace;
 }
