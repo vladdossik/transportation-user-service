@@ -3,6 +3,7 @@ package transportation.service;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import transportation.dto.UserDeleteDto;
 import transportation.dto.UserPostDto;
 import transportation.dto.UserPutDto;
 import transportation.dto.UserResponseDto;
@@ -29,7 +30,8 @@ public class UserService {
                 .patronymic(userPostDto.getPatronymic())
                 .passport(userPostDto.getPassport())
                 .issueDate(userPostDto.getIssueDate())
-               .issuePlace(userPostDto.getIssuePlace()).build();
+                .issuePlace(userPostDto.getIssuePlace())
+                .deletionDate(null).build();
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
@@ -38,18 +40,20 @@ public class UserService {
         return list.stream().map(userMapper::toResponseDto).collect(Collectors.toList());
     }
 
+    @Transactional
     public UserResponseDto getById(Long id) {
-        return userMapper.toResponseDto(userRepository.getById(id));
+        userRepository.getById(id);
+        return userMapper.toResponseDto(userRepository.findById(id).get());
     }
 
     public String deleteAll() {
-        List<User> list = userRepository.findAll();
-        userRepository.deleteAll(list);
+        userRepository.deleteAllBy();
         return "Пользователи удалены";
     }
 
-    public String deleteById(Long id) {
-        userRepository.deleteById(id);
+    @Transactional
+    public String deleteById(Long id, UserDeleteDto userDeleteDto) {
+        userRepository.deleteBy(id, userDeleteDto.getDeletionDate());
         return "Пользователь удален";
     }
 

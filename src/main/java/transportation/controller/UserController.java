@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import transportation.dto.UserDeleteDto;
 import transportation.dto.UserPostDto;
 import transportation.dto.UserPutDto;
 import transportation.dto.UserResponseDto;
@@ -69,8 +70,8 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @DeleteMapping("{id}/delete")
-    public void deleteUsers(@PathVariable Long id) {
-        userService.deleteById(id);
+    public void deleteUsers(@PathVariable Long id, @RequestBody UserDeleteDto userDeleteDto) {
+        userService.deleteById(id, userDeleteDto);
     }
 
     @Operation(summary = "Удалить всех пользователей")
