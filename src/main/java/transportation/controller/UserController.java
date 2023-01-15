@@ -8,10 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import transportation.dto.UserPostDto;
-import transportation.dto.UserPutDto;
-import transportation.dto.UserResponseDto;
 import transportation.service.UserService;
+import users.UserPostDto;
+import users.UserPutDto;
+import users.UserResponseDto;
 
 import java.util.List;
 
