@@ -9,32 +9,31 @@ import transportation.model.User;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByIdAndDeletionDateIsNull(Long id);
 
-    @Transactional
-    @Query("select u.firstName, u.lastName, u.patronymic, u.creationDate, u.lastUpdateDate," +
-            "u.passport, u.issueDate, u.issuePlace, u.amountOfOrders from User u where u.deletionDate = null and u.id = :id")
-    User getById(@Param("id") Long id);
+    List<User> getAllByDeletionDateIsNull();
 
     @Modifying
     @Transactional
     @Query("update User u set u.firstName = :firstname, u.lastName = :lastname, u.patronymic = :patronymic," +
-            "u.passport = :passport, u.issueDate = :issueDate, u.issuePlace = :issuePlace" +
+            "u.passport = :passport, u.issueDate = :issueDate, u.issuePlace = :issuePlace, u.lastUpdateDate = CURRENT_TIMESTAMP" +
             " where u.id = :id")
-    void updateUser(@Param("id") Long id, @Param("firstname") String firstname, @Param("lastname") String lastname,
-                           @Param("patronymic") String patronymic, @Param("passport") String passport,
-                           @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace);
+    void update(@Param("id") Long id, @Param("firstname") String firstname, @Param("lastname") String lastname,
+                @Param("patronymic") String patronymic, @Param("passport") String passport,
+                @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace);
 
     @Modifying
     @Transactional
-    @Query("update User u set u.deletionDate = :deletionDate where u.id = :id")
-    void deleteBy(@Param("id") Long id, @Param("deletionDate") LocalDate deletionDate);
+    @Query("update User u set u.deletionDate = CURRENT_TIMESTAMP where u.id = :id")
+    void delete(@Param("id") Long id);
 
     @Modifying
     @Transactional
-    @Query("update User u set u.deletionDate = :deletionDate")
-    void deleteAllBy();
+    @Query("update User u set u.deletionDate = CURRENT_TIMESTAMP")
+    void deleteAll();
 }
