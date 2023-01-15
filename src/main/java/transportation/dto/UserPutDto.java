@@ -20,7 +20,4 @@ public class UserPutDto {
     private LocalDate issueDate;
     @Schema(description = "Где выдан")
     private String issuePlace;
-    @Schema(description = "Дата обновления")
-    private ZonedDateTime lastUpdateDate;
-
 }
