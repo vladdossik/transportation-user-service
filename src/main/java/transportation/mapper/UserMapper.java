@@ -1,8 +1,8 @@
 package transportation.mapper;
 
 import org.springframework.stereotype.Component;
-import transportation.dto.UserResponseDto;
 import transportation.model.User;
+import users.UserResponseDto;
 
 @Component
 public class UserMapper {

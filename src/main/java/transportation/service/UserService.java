@@ -2,12 +2,12 @@ package transportation.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import transportation.dto.UserPostDto;
-import transportation.dto.UserPutDto;
-import transportation.dto.UserResponseDto;
 import transportation.mapper.UserMapper;
 import transportation.model.User;
 import transportation.repository.UserRepository;
+import users.UserPostDto;
+import users.UserPutDto;
+import users.UserResponseDto;
 
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
