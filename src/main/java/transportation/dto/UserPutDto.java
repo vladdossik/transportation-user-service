@@ -20,5 +20,4 @@ public class UserPutDto {
     private LocalDate issueDate;
     @Schema(description = "Где выдан")
     private String issuePlace;
-
 }

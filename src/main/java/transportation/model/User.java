@@ -25,5 +25,5 @@ public class User {
     private LocalDate issueDate;
     private String issuePlace;
     private Long amountOfOrders;
-    private Boolean isDeleted;
+    private ZonedDateTime deletionDate;
 }

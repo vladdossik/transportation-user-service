@@ -1,7 +1,6 @@
 package transportation.service;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import transportation.dto.UserPostDto;
 import transportation.dto.UserPutDto;
@@ -11,6 +10,7 @@ import transportation.model.User;
 import transportation.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,40 +22,42 @@ public class UserService {
 
     private final UserMapper userMapper;
 
-    public UserResponseDto saveUser(UserPostDto userPostDto) {
+    public UserResponseDto save(UserPostDto userPostDto) {
         User user = User.builder()
                 .firstName(userPostDto.getFirstName())
                 .lastName(userPostDto.getLastName())
                 .patronymic(userPostDto.getPatronymic())
                 .passport(userPostDto.getPassport())
                 .issueDate(userPostDto.getIssueDate())
-               .issuePlace(userPostDto.getIssuePlace()).build();
+                .creationDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now())
+                .issuePlace(userPostDto.getIssuePlace()).build();
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
-    public List<UserResponseDto> getAllUsers() {
-        List<User> list = userRepository.findAll();
+    public List<UserResponseDto> getAll() {
+        List<User> list = userRepository.getAllByDeletionDateIsNull();
         return list.stream().map(userMapper::toResponseDto).collect(Collectors.toList());
     }
 
-    public UserResponseDto getById(Long id) {
-        return userMapper.toResponseDto(userRepository.getById(id));
+    public UserResponseDto getById(Long id){
+        return userMapper.toResponseDto(userRepository.findByIdAndDeletionDateIsNull(id));
     }
 
     public String deleteAll() {
-        List<User> list = userRepository.findAll();
-        userRepository.deleteAll(list);
+        userRepository.deleteAll();
         return "Пользователи удалены";
     }
 
-    public String deleteById(Long id) {
-        userRepository.deleteById(id);
+    @Transactional
+    public String delete(Long id) {
+        userRepository.delete(id);
         return "Пользователь удален";
     }
 
     @Transactional
-    public UserPutDto updateUser(Long id, UserPutDto userPutDto) {
-        userRepository.updateUser(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
+    public UserPutDto update(Long id, UserPutDto userPutDto) {
+        userRepository.update(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
                 userPutDto.getPassport(), userPutDto.getIssueDate(), userPutDto.getIssuePlace());
         userRepository.findById(id).get();
         return userPutDto;

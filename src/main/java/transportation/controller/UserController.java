@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +32,8 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @PostMapping("add")
-    public UserResponseDto addUser(@RequestBody UserPostDto userPostDto) {
-        return userService.saveUser(userPostDto);
+    public UserResponseDto add(@RequestBody UserPostDto userPostDto) {
+        return userService.save(userPostDto);
     }
 
     @Operation(summary = "Получить всех пользователей")
@@ -45,8 +44,8 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @GetMapping("all")
-    public List <UserResponseDto> getAllUsers() {
-        return userService.getAllUsers();
+    public List <UserResponseDto> getAll() {
+        return userService.getAll();
     }
 
     @Operation(summary = "Получить пользователя по id")
@@ -69,8 +68,8 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @DeleteMapping("{id}/delete")
-    public void deleteUsers(@PathVariable Long id) {
-        userService.deleteById(id);
+    public void delete(@PathVariable Long id) {
+        userService.delete(id);
     }
 
     @Operation(summary = "Удалить всех пользователей")
@@ -81,7 +80,7 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @DeleteMapping("delete")
-    public String deleteUserAll() {
+    public String deleteAll() {
         return userService.deleteAll();
     }
 
@@ -93,7 +92,7 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @PutMapping("{id}")
-    public UserPutDto updateUser(@PathVariable Long id, @RequestBody UserPutDto userDto) {
-        return userService.updateUser(id, userDto);
+    public UserPutDto update(@PathVariable Long id, @RequestBody UserPutDto userDto) {
+        return userService.update(id, userDto);
     }
 }
