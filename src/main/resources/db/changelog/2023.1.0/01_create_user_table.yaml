@@ -9,25 +9,26 @@ databaseChangeLog:
               - column:
                   name: id
                   type: serial
-                  remarks: Имя
+                  remarks: id
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: first_name
                   type: varchar(50)
-                  remarks: Фамилия
+                  remarks: Имя
                   constraints:
                     nullable: false
               - column:
                   name: last_name
                   type: varchar(50)
-                  remarks: Отчество
+                  remarks: Фамилия
                   constraints:
                     nullable: false
               - column:
                   name: patronymic
                   type: varchar(50)
+                  remarks: Отчество
               - column:
                   name: creation_date
                   type: TIMESTAMP

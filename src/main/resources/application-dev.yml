@@ -10,8 +10,6 @@ services:
 #  if you need to go to another services
 
 spring:
-  liquibase:
-    enabled: true
   datasource:
     password: 123
     username: postgres
