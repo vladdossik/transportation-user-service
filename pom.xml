@@ -22,6 +22,7 @@
         <java.version>11</java.version>
 
         <transportation-models.version>0.0.2</transportation-models.version>
+        <liquibase-version>4.18.0</liquibase-version>
 
         <openapi.version>1.6.5</openapi.version>
         <json.schema.version>1.5.1</json.schema.version>
@@ -160,6 +161,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase-version}</version>
         </dependency>
     </dependencies>
 

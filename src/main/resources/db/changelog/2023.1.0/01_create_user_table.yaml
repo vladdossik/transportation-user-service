@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023.1.0_01
+      author: lissa.faul@mail.ru
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  remarks: Имя
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(50)
+                  remarks: Фамилия
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar(50)
+                  remarks: Отчество
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  remarks: Дата создания
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updateDate
+                  type: TIMESTAMP
+                  remarks: Дата обновления
+                  constraints:
+                    nullable: false
+              - column:
+                  name: passport
+                  type: varchar(20)
+                  remarks: Паспорт
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: issue_date
+                  type: TIME
+                  remarks: Дата выдачи паспорта
+                  constraints:
+                    nullable: false
+              - column:
+                  name: issue_place
+                  type: varchar(100)
+                  remarks: Где выдан
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount_of_orders
+                  type: BIGINT
+                  remarks: Количество заказов
+              - column:
+                  name: deletion_date
+                  type: TIMESTAMP
+                  remarks: Дата удаления
+
