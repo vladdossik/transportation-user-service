@@ -8,13 +8,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import transportation.model.User;
 import transportation.service.UserService;
+import users.UserPageResponse;
 import users.UserPostDto;
 import users.UserPutDto;
 import users.UserResponseDto;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 
@@ -38,7 +44,7 @@ public class UserController {
         return userService.save(userPostDto);
     }
 
-    @Operation(summary = "Получить всех пользователей")
+    @Operation(summary = "Получить список пользователей")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
@@ -46,8 +52,13 @@ public class UserController {
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @GetMapping("all")
-    public List <UserResponseDto> getAll() {
-        return userService.getAll();
+    public UserPageResponse getAll(
+            @RequestParam(defaultValue = "0") @Min(0) Integer pageNumber,
+            @RequestParam(defaultValue = "10") @Min(1) Integer pageSize,
+            @RequestParam(defaultValue = "creationDate") String sortBy,
+            @RequestParam Sort.Direction direction
+            ) {
+        return userService.getAll(pageNumber, pageSize, sortBy, direction);
     }
 
     @Operation(summary = "Получить пользователя по id")
