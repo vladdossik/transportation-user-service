@@ -36,7 +36,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: last_updateDate
+                  name: last_update_date
                   type: TIMESTAMP
                   remarks: Дата обновления
                   constraints:
@@ -50,7 +50,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: issue_date
-                  type: TIME
+                  type: varchar(100)
                   remarks: Дата выдачи паспорта
                   constraints:
                     nullable: false

@@ -15,7 +15,7 @@ public class UserMapper {
         userResponseDto.setCreationDate(user.getCreationDate());
         userResponseDto.setLastUpdateDate(user.getLastUpdateDate());
         userResponseDto.setPassport(user.getPassport());
-        userResponseDto.setIssueDate(user.getIssueDate());
+        userResponseDto.setIssueDate(user.getIssueDate().toString());
         userResponseDto.setIssuePlace(user.getIssuePlace());
         userResponseDto.setAmountOfOrders(user.getAmountOfOrders());
         return userResponseDto;

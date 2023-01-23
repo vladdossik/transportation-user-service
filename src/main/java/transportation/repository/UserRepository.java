@@ -6,15 +6,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import transportation.model.User;
+import users.UserPostDto;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByIdAndDeletionDateIsNull(Long id);
+    Optional<User> findByIdAndDeletionDateIsNull(Long id);
+
+    Optional<User> findByPassport(String passport);
 
     List<User> getAllByDeletionDateIsNull();
 
@@ -25,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " where u.id = :id")
     void update(@Param("id") Long id, @Param("firstname") String firstname, @Param("lastname") String lastname,
                 @Param("patronymic") String patronymic, @Param("passport") String passport,
-                @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace);
+                @Param("issueDate") String issueDate, @Param("issuePlace") String issuePlace);
 
     @Modifying
     @Transactional
