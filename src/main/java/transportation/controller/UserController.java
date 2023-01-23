@@ -56,9 +56,11 @@ public class UserController {
             @RequestParam(defaultValue = "0") @Min(0) Integer pageNumber,
             @RequestParam(defaultValue = "10") @Min(1) Integer pageSize,
             @RequestParam(defaultValue = "creationDate") String sortBy,
-            @RequestParam Sort.Direction direction
+            @RequestParam Sort.Direction direction,
+            @RequestParam(required = false) String firstNameFilter,
+            @RequestParam(required = false) String lastNameFilter
             ) {
-        return userService.getAll(pageNumber, pageSize, sortBy, direction);
+        return userService.getAll(pageNumber, pageSize, sortBy, direction, firstNameFilter, lastNameFilter);
     }
 
     @Operation(summary = "Получить пользователя по id")

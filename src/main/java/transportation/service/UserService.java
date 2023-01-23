@@ -49,10 +49,16 @@ public class UserService {
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
-    public UserPageResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction direction) {
+    public UserPageResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction direction, String firstName, String lastName) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, direction, sortBy);
-        return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNull(pageable), sortBy, direction);
-
+        if (firstName != null && lastName != null) {
+            return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNullAndFirstNameContainsIgnoreCaseAndLastNameContainsIgnoreCase(pageable, firstName, lastName), sortBy, direction);
+        } else if (firstName != null) {
+            return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNullAndFirstNameContainsIgnoreCase(pageable, firstName), sortBy, direction);
+        } else if (lastName != null) {
+            return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNullAndLastNameContainsIgnoreCase(pageable, lastName), sortBy, direction);
+        } else
+            return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNull(pageable), sortBy, direction);
     }
 
     public UserResponseDto getById(Long id) {
