@@ -7,12 +7,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import transportation.service.UserService;
 import users.UserPostDto;
 import users.UserPutDto;
 import users.UserResponseDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,13 +28,13 @@ public class UserController {
 
     @Operation(summary = "Добавить пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @PostMapping("add")
-    public UserResponseDto add(@RequestBody UserPostDto userPostDto) {
+    public UserResponseDto add(@Valid @RequestBody UserPostDto userPostDto) {
         return userService.save(userPostDto);
     }
 
@@ -50,7 +52,7 @@ public class UserController {
 
     @Operation(summary = "Получить пользователя по id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
@@ -62,7 +64,7 @@ public class UserController {
 
     @Operation(summary = "Удалить пользователя по id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
@@ -74,7 +76,7 @@ public class UserController {
 
     @Operation(summary = "Удалить всех пользователей")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
@@ -86,13 +88,13 @@ public class UserController {
 
     @Operation(summary = "Обновить данные пользователея")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
     @PutMapping("{id}")
-    public UserPutDto update(@PathVariable Long id, @RequestBody UserPutDto userDto) {
+    public UserPutDto update(@PathVariable Long id, @Valid @RequestBody UserPutDto userDto) {
         return userService.update(id, userDto);
     }
 }
