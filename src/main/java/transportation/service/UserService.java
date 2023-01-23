@@ -1,6 +1,10 @@
 package transportation.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import transportation.exception.EntityAlreadyExistsException;
@@ -8,6 +12,7 @@ import transportation.exception.EntityNotFoundException;
 import transportation.mapper.UserMapper;
 import transportation.model.User;
 import transportation.repository.UserRepository;
+import users.UserPageResponse;
 import users.UserPostDto;
 import users.UserPutDto;
 import users.UserResponseDto;
@@ -44,9 +49,10 @@ public class UserService {
         return userMapper.toResponseDto(userRepository.save(user));
     }
 
-    public List<UserResponseDto> getAll() {
-        List<User> list = userRepository.getAllByDeletionDateIsNull();
-        return list.stream().map(userMapper::toResponseDto).collect(Collectors.toList());
+    public UserPageResponse getAll(Integer pageNumber, Integer pageSize, String sortBy, Sort.Direction direction) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, direction, sortBy);
+        return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNull(pageable), sortBy, direction);
+
     }
 
     public UserResponseDto getById(Long id) {
