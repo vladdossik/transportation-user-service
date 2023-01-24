@@ -37,7 +37,7 @@
     <repositories>
         <repository>
             <id>transportation-models-mvn-repo</id>
-            <url>https://raw.github.com/vladdossik/transportation-models/mvn-repo/</url>
+            <url>https://github.com/vladdossik/transportation-models/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
