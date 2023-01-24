@@ -12,7 +12,7 @@
 
     <groupId>transportation</groupId>
     <artifactId>transportation-user-service</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -21,7 +21,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>11</java.version>
 
-        <transportation-models.version>0.0.4</transportation-models.version>
+        <transportation-models.version>0.0.4-SNAPSHOT</transportation-models.version>
         <liquibase-version>4.18.0</liquibase-version>
 
         <openapi.version>1.6.5</openapi.version>
@@ -73,9 +73,9 @@
 
         <!-- Inside services -->
         <dependency>
-            <groupId>transportation</groupId>
+            <groupId>com.github.vladdossik</groupId>
             <artifactId>transportation-models</artifactId>
-            <version>${transportation-models.version}</version>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -179,7 +179,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.github.vladdossik</groupId>
+            <artifactId>transportation-models</artifactId>
+            <version>v0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
