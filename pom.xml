@@ -182,7 +182,7 @@
         <dependency>
             <groupId>com.github.vladdossik</groupId>
             <artifactId>transportation-models</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>v0.0.1</version>
         </dependency>
     </dependencies>
 
