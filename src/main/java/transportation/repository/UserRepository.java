@@ -25,6 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> getAllByDeletionDateIsNull(Pageable pageable);
 
+    Page<User> getAllByDeletionDateIsNullAndFirstNameContainsIgnoreCaseAndLastNameContainsIgnoreCase(Pageable pageable, String firstName, String lastName);
+    Page<User> getAllByDeletionDateIsNullAndFirstNameContainsIgnoreCase(Pageable pageable, String firstName);
+    Page<User> getAllByDeletionDateIsNullAndLastNameContainsIgnoreCase(Pageable pageable, String lastName);
+
     @Modifying
     @Transactional
     @Query("update User u set u.firstName = :firstname, u.lastName = :lastname, u.patronymic = :patronymic," +
