@@ -8,12 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import transportation.model.User;
-import users.UserPostDto;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " where u.id = :id")
     void update(@Param("id") Long id, @Param("firstname") String firstname, @Param("lastname") String lastname,
                 @Param("patronymic") String patronymic, @Param("passport") String passport,
-                @Param("issueDate") String issueDate, @Param("issuePlace") String issuePlace);
+                @Param("issueDate") LocalDate issueDate, @Param("issuePlace") String issuePlace);
 
     @Modifying
     @Transactional
@@ -47,4 +44,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query("update User u set u.deletionDate = CURRENT_TIMESTAMP")
     void deleteAll();
+
+    @Modifying
+    @Transactional
+    @Query("update User u set u.deletionDate = null where u.id = :id ")
+    void reestablish(@Param("id") Long id);
 }

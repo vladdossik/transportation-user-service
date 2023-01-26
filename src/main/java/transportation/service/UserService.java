@@ -1,11 +1,9 @@
 package transportation.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import transportation.exception.EntityAlreadyExistsException;
 import transportation.exception.EntityNotFoundException;
@@ -19,12 +17,9 @@ import users.UserResponseDto;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -85,9 +80,17 @@ public class UserService {
         checkExistenceByPassportAndThrow(userPutDto.getPassport());
 
         userRepository.update(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
-                userPutDto.getPassport(), userPutDto.getIssueDate(), userPutDto.getIssuePlace());
+                userPutDto.getPassport(), LocalDate.parse(userPutDto.getIssueDate()), userPutDto.getIssuePlace());
         userRepository.findById(id).get();
         return userPutDto;
+    }
+
+    public UserResponseDto reestablish(Long id){
+        userRepository.reestablish(id);
+        Optional<User> user = userRepository.findByIdAndDeletionDateIsNull(id);
+        if (user.isPresent()) {
+            return userMapper.toResponseDto(user.get());
+        } else throw new EntityNotFoundException("User with id = " + id + " not found");
     }
 
     private void checkExistenceOrThrow(Long id) {

@@ -17,7 +17,6 @@ import users.UserResponseDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.List;
 
 
 @Slf4j
@@ -42,7 +41,7 @@ public class UserController {
 
     @Operation(summary = "Получить список пользователей")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = UserPageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
@@ -105,5 +104,17 @@ public class UserController {
     @PutMapping("{id}")
     public UserPutDto update(@PathVariable Long id, @Valid @RequestBody UserPutDto userDto) {
         return userService.update(id, userDto);
+    }
+
+    @Operation(summary = "Востановить пользователя по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Запрос выполнен успешно", content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "Ошибочный запрос"),
+            @ApiResponse(responseCode = "409", description = "Запись уже существует"),
+            @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
+    })
+    @PostMapping("{id}")
+    public UserResponseDto reestablish(@PathVariable Long id) {
+        return userService.reestablish(id);
     }
 }
