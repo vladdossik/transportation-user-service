@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +33,7 @@ public class UserService {
     public UserResponseDto save(UserPostDto userPostDto) {
         checkExistenceByPassportAndThrow(userPostDto.getPassport());
         User user = User.builder()
+                .externalId(UUID.randomUUID())
                 .firstName(userPostDto.getFirstName())
                 .lastName(userPostDto.getLastName())
                 .patronymic(userPostDto.getPatronymic())
@@ -56,11 +58,11 @@ public class UserService {
             return userMapper.toPageResponseDto(userRepository.getAllByDeletionDateIsNull(pageable), sortBy, direction);
     }
 
-    public UserResponseDto getById(Long id) {
-        Optional<User> user = userRepository.findByIdAndDeletionDateIsNull(id);
+    public UserResponseDto getById(UUID externalId) {
+        Optional<User> user = userRepository.findByExternalIdAndDeletionDateIsNull(externalId);
         if (user.isPresent()) {
             return userMapper.toResponseDto(user.get());
-        } else throw new EntityNotFoundException("User with id = " + id + " not found");
+        } else throw new EntityNotFoundException("User with id = " + externalId + " not found");
     }
 
     public String deleteAll() {
@@ -69,34 +71,33 @@ public class UserService {
     }
 
     @Transactional
-    public String delete(Long id) {
-        userRepository.delete(id);
+    public String delete(UUID externalId) {
+        userRepository.delete(externalId);
         return "Пользователь удален";
     }
 
     @Transactional
-    public UserPutDto update(Long id, UserPutDto userPutDto) {
-        checkExistenceOrThrow(id);
+    public UserResponseDto update(UUID externalId, UserPutDto userPutDto) {
+        checkExistenceOrThrow(externalId);
         checkExistenceByPassportAndThrow(userPutDto.getPassport());
 
-        userRepository.update(id, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
+        userRepository.update(externalId, userPutDto.getFirstName(), userPutDto.getLastName(), userPutDto.getPatronymic(),
                 userPutDto.getPassport(), LocalDate.parse(userPutDto.getIssueDate()), userPutDto.getIssuePlace());
-        userRepository.findById(id).get();
-        return userPutDto;
+        return userMapper.toResponseDto(userRepository.findByExternalId(externalId).get());
     }
 
-    public UserResponseDto reestablish(Long id){
-        userRepository.reestablish(id);
-        Optional<User> user = userRepository.findByIdAndDeletionDateIsNull(id);
+    public UserResponseDto reestablish(UUID externalId){
+        userRepository.reestablish(externalId);
+        Optional<User> user = userRepository.findByExternalIdAndDeletionDateIsNull(externalId);
         if (user.isPresent()) {
             return userMapper.toResponseDto(user.get());
-        } else throw new EntityNotFoundException("User with id = " + id + " not found");
+        } else throw new EntityNotFoundException("User with id = " + externalId + " not found");
     }
 
-    private void checkExistenceOrThrow(Long id) {
-        Optional<User> user = userRepository.findByIdAndDeletionDateIsNull(id);
+    private void checkExistenceOrThrow(UUID externalId) {
+        Optional<User> user = userRepository.findByExternalIdAndDeletionDateIsNull(externalId);
         if (user.isEmpty()) {
-            throw new EntityNotFoundException("User with id = " + id + " not found");
+            throw new EntityNotFoundException("User with id = " + externalId + " not found");
         }
     }
 

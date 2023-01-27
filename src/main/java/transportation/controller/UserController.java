@@ -17,6 +17,7 @@ import users.UserResponseDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.UUID;
 
 
 @Slf4j
@@ -65,9 +66,9 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
-    @GetMapping("{id}")
-    public UserResponseDto getById(@PathVariable Long id) {
-        return userService.getById(id);
+    @GetMapping("{externalId}")
+    public UserResponseDto getById(@PathVariable UUID externalId) {
+        return userService.getById(externalId);
     }
 
     @Operation(summary = "Удалить пользователя по id")
@@ -77,9 +78,9 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
-    @DeleteMapping("{id}/delete")
-    public void delete(@PathVariable Long id) {
-        userService.delete(id);
+    @DeleteMapping("{externalId}/delete")
+    public String delete(@PathVariable UUID externalId) {
+        return userService.delete(externalId);
     }
 
     @Operation(summary = "Удалить всех пользователей")
@@ -101,9 +102,9 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
-    @PutMapping("{id}")
-    public UserPutDto update(@PathVariable Long id, @Valid @RequestBody UserPutDto userDto) {
-        return userService.update(id, userDto);
+    @PutMapping("{externalId}")
+    public UserResponseDto update(@PathVariable UUID externalId, @Valid @RequestBody UserPutDto userDto) {
+        return userService.update(externalId, userDto);
     }
 
     @Operation(summary = "Востановить пользователя по id")
@@ -113,8 +114,8 @@ public class UserController {
             @ApiResponse(responseCode = "409", description = "Запись уже существует"),
             @ApiResponse(responseCode = "503", description = "Сервис временно недоступен")
     })
-    @PostMapping("{id}")
-    public UserResponseDto reestablish(@PathVariable Long id) {
-        return userService.reestablish(id);
+    @PostMapping("{externalId}")
+    public UserResponseDto reestablish(@PathVariable UUID externalId) {
+        return userService.reestablish(externalId);
     }
 }

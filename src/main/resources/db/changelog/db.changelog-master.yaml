@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/2023.1.0/01_create_user_table.yaml
+  - include:
+      file: db/changelog/2023.1.1/01_add_external_id.yaml

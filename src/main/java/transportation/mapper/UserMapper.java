@@ -14,6 +14,7 @@ public class UserMapper {
 
     public UserResponseDto toResponseDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setExternalId(user.getExternalId());
         userResponseDto.setFirstName(user.getFirstName());
         userResponseDto.setLastName(user.getLastName());
         userResponseDto.setPatronymic(user.getPatronymic());
