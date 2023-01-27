@@ -1,16 +1,19 @@
 package transportation.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-import org.aspectj.bridge.IMessage;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.math.BigInteger;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +25,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID externalId;
     @NotBlank(message = "First name is mandatory")
     @Size(min = 2, message = "First name too short")
     private String firstName;
