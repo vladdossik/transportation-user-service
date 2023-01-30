@@ -11,10 +11,17 @@ services:
 
 spring:
   datasource:
-    password: 123
-    username: postgres
-    url: jdbc:postgresql://localhost:5432/
-    driver-class-name: org.postgresql.Driver
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/postgres?currentSchema=transportation_user_service_db}
+    hikari:
+      username: ${POSTGRES_USER:postgres}
+      password: ${POSTGRES_PASSWORD:123}
+  liquibase:
+    enabled: true
+    user: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:123}
+    default-schema: ${POSTGRES_SCHEMA:transportation_user_service_db}
+    liquibase-schema: ${POSTGRES_SCHEMA:transportation_user_service_db}
+    change-log: classpath:db/changelog/db.changelog-master.yaml
   jpa:
     properties:
       hibernate:
